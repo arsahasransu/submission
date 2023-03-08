@@ -494,6 +494,7 @@ def printDoc(task_configs):
     print(f'   * tasks:')
     for task in task_configs:
         print(f'      * `{task.task_name}`')
+        print(f'          * dataset: `{task.input_dataset}`')
 
 
 def main():
