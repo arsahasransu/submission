@@ -1,0 +1,117 @@
+
+Common:
+  mode: NTP
+  name: ntuples
+  
+  tasks:
+    # - DoubleElectron_FlatPt-1To100_PU0
+    # - TT_PU200
+    # - DYToLL_PU200
+    - DoubleElectron_FlatPt-1To100_PU200
+    # - DoublePhoton_FlatPt-1To100_PU200
+    - NuGunAllEta_PU200
+
+  cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
+  version: v92B
+  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/ntuples
+  ncpu: 1
+  output_file_name: ntuple.root
+
+# DoubleElectron_FlatPt-1To100_PU0:
+#   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+#   # input_directory =
+#   crab: True
+#   splitting_mode: Automatic
+#   splitting_granularity: 200
+#   # job_flavor =
+#   max_events: -1
+
+  
+DoubleElectron_FlatPt-1To100_PU200:
+  input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory =
+  crab: True
+  splitting_mode: EventAwareLumiBased
+  splitting_granularity: 3000
+  # job_flavor =
+  max_events: -1
+
+
+DoublePhoton_FlatPt-1To100_PU200:
+  input_dataset: /DoublePhoton_FlatPt-1To100-gun/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory =
+  crab: True
+  splitting_mode: EventAwareLumiBased
+  splitting_granularity: 2000
+  # job_flavor =
+  max_events: -1
+
+
+
+# NuGunAllEta_PU200:
+#   # input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v1/FEVT
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/11_1_0/NewInputs110X/110121.done/SingleNeutrino_PU200/
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 100
+#   job_flavor: longlunch
+#   max_events: 2
+
+NuGunAllEta_PU200:
+  input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/11_1_0/NewInputs110X/110121.done/SingleNeutrino_PU200/
+  crab: True
+  splitting_mode: EventAwareLumiBased
+  splitting_granularity: 2000
+  job_flavor: longlunch
+  max_events: 200000
+
+
+# /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_Pilot_125X_mcRun4_realistic_v2-v2/GEN-SIM-DIGI-RAW-MINIAOD
+# /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-noPU_Pilot_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+
+# DYToLL_PU200:
+#   # input_dataset =
+#   # input_directory =
+#   crab: True
+#   splitting_mode: Automatic
+#   splitting_granularity: 500
+#   # job_flavor =
+#   max_events: 200000
+
+# /TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TTToSemiLepton_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TT_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2_ext1-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TT_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_PUTP_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+
+# TT_PU0:
+#   input_dataset: /TTbar_14TeV_TuneCP5_Pythia8/PhaseIITDRSpring19DR-NoPU_106X_upgrade2023_realistic_v3-v1/GEN-SIM-DIGI-RAW
+#   # input_directory =
+#   crab: True
+#   splitting_mode: Automatic
+#   splitting_granularity: 500
+#   # job_flavor =
+#   max_events: 100000
+
+# TT_PU200:
+#   input_dataset: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v2/FEVT
+#   # input_directory =
+#   crab: True
+#   splitting_mode: EventAwareLumiBased
+#   splitting_granularity: 3000
+#   # job_flavor =
+#   max_events: 100000
+
+
+ZPrimeEE_PU200:
+  input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory =
+  crab: True
+  splitting_mode: EventAwareLumiBased
+  splitting_granularity: 1000
+  # job_flavor =
+  max_events: 100000
+
+
+# dasgoclient --query "dataset dataset=/*/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD"
