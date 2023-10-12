@@ -1,24 +1,24 @@
 
 Common:
-  mode: NTP
-  name: ntuples
+  mode: FP
+  name: fp
   
   tasks:
     # - DoubleElectron_FlatPt-1To100_PU0
-    # - TT_PU200
-    # - DYToLL_PU200
-    # - DoubleElectron_FlatPt-1To100_PU200
+    - TT_PU200
+    - DYToLL_M-50_PU200
+    - DoubleElectron_FlatPt-1To100_PU200
     # - DoublePhoton_FlatPt-1To100_PU200
-    # - NuGunAllEta_PU200
+    - NuGunAllEta_PU200
     - ZprimeToEE_M-6000_PU200
 
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs125X.py
-  version: v100A
-  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/ntuples
+  cmssw_config: ../FastPUPPI/NtupleProducer/python/runPerformanceNTuple.py
+  version: v100C
+  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fp_ntuples
   ncpu: 1
-  output_file_name: ntuple.root
+  output_file_name: perfNano.root
 
 DoubleElectron_FlatPt-1To100_PU0:
   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
@@ -31,12 +31,16 @@ DoubleElectron_FlatPt-1To100_PU0:
 
   
 DoubleElectron_FlatPt-1To100_PU200:
-  input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  # input_directory =
-  crab: True
-  splitting_mode: EventAwareLumiBased
-  splitting_granularity: 3000
-  # job_flavor =
+  # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/DoubleElectron_FlatPt-1To100_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - noResp()
+  job_flavor: longlunch
   max_events: -1
 
 
@@ -61,27 +65,40 @@ DoublePhoton_FlatPt-1To100_PU200:
 #   max_events: 2
 
 NuGunAllEta_PU200:
-  input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  # input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/11_1_0/NewInputs110X/110121.done/SingleNeutrino_PU200/
-  crab: True
-  splitting_mode: EventAwareLumiBased
-  splitting_granularity: 2000
+  # input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/SingleNeutrino_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - noResp()
+    - addSeededConeJets()
   job_flavor: longlunch
-  max_events: 200000
+  max_events: -1
 
 
 # /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_Pilot_125X_mcRun4_realistic_v2-v2/GEN-SIM-DIGI-RAW-MINIAOD
 # /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-noPU_Pilot_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
 # /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
 
-# DYToLL_PU200:
-#   # input_dataset =
-#   # input_directory =
-#   crab: True
-#   splitting_mode: Automatic
-#   splitting_granularity: 500
-#   # job_flavor =
-#   max_events: 200000
+DYToLL_M-50_PU200:
+  # input_dataset =
+  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/DYToLL_M-50_PU200/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - noResp()
+    - addSeededConeJets()
+  job_flavor: longlunch
+  max_events: -1
+
+
+
 
 # /TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
 # /TTToSemiLepton_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
@@ -97,21 +114,30 @@ NuGunAllEta_PU200:
 #   # job_flavor =
 #   max_events: 100000
 
-# TT_PU200:
-#   input_dataset: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v2/FEVT
-#   # input_directory =
-#   crab: True
-#   splitting_mode: EventAwareLumiBased
-#   splitting_granularity: 3000
-#   # job_flavor =
-#   max_events: 100000
+TT_PU200:
+  # input_dataset: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v2/FEVT
+  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/TTbar_PU200/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - noResp()
+    - addSeededConeJets()
+  job_flavor: longlunch
+  max_events: -1
 
 
 ZprimeToEE_M-6000_PU200:
-  input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  # input_directory =
-  crab: True
-  splitting_mode: EventAwareLumiBased
-  splitting_granularity: 4000
-  # job_flavor =
+  # input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/ZprimeToEE_M-6000_PU200_v100B/231009_164835/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 3
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - noResp()
+  job_flavor: longlunch
   max_events: -1
