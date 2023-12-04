@@ -30,11 +30,11 @@ class SandboxTarball(object):
         """
         Add the necessary files to the tarball
         """
-        directories = ['lib', 'biglib', 'module', 'bin']
+        directories = ['python', 'cfipython', 'lib', 'biglib', 'module', 'bin']
         # Note that dataDirs are only looked-for and added under the src/ folder.
         # /data/ subdirs contain data files needed by the code
         # /interface/ subdirs contain C++ header files needed e.g. by ROOT6
-        dataDirs = ['data', 'interface']
+        dataDirs = ['data', 'interface', 'python']
 
         # Tar up whole directories
         for directory in directories:
@@ -199,7 +199,7 @@ def getFilesForDataset(dataset, site=None):
 
 def getJobParams(mode, task_conf):
     params = {}
-    if mode == 'NTP' or mode == 'L1IN' or mode == 'SIMDIGI':
+    if mode == 'NTP' or mode == 'L1IN' or mode == 'SIMDIGI' or mode == 'INFP' or mode == 'FP':
         input_files = []
         if not task_conf.crab:
             if hasattr(task_conf, 'input_directory'):
@@ -267,6 +267,8 @@ def getJobParams(mode, task_conf):
             params['TEMPL_INPUTDATASET'] = task_conf.input_dataset
         params['TEMPL_DATASETTAG'] = '{}_{}'.format(task_conf.task_name, task_conf.version)
         params['TEMPL_CRABOUTDIR'] = task_conf.output_dir_base.split('/eos/cms')[1].replace('/cmst3/', '/group/cmst3/')
+        if hasattr(task_conf, 'inline_customize'):
+            params['TEMPL_CUSTOMIZE'] = '\n'.join(task_conf.inline_customize)
 
         def get_from_env(variable):
             if variable in os.environ:
@@ -372,7 +374,11 @@ def createJobExecutable(mode, params):
     params_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], 'params.sh'), 'w')
     templs_keys = [key for key in list(params.keys()) if 'TEMPL_' in key]
     for key in templs_keys:
-        params_file.write('{}={}\n'.format(key.split('_')[1], str(params[key])))
+        # print(key)
+        # print(str(params[key]))
+        # print(str(params[key]).encode("unicode_escape").decode())
+        if(key != 'TEMPL_CUSTOMIZE'):
+            params_file.write('{}={}\n'.format(key.split('_')[1], str(params[key]).encode("unicode_escape").decode()))
     
     params_file.close()
 
@@ -416,9 +422,10 @@ def createTaskSetup(task_config, config_file):
 
     params = getJobParams(mode, task_config)
     if not task_config.crab:
-        pickler(task_config.cmssw_config, 'input_cfg.py')
-        shutil.move("input_cfg.py", '{}/conf/input_cfg.py'.format(task_config.task_dir))
-        shutil.move("input_cfg.pkl", '{}/conf/input_cfg.pkl'.format(task_config.task_dir))
+        # pickler(task_config.cmssw_config, 'input_cfg.py')
+        # shutil.move("input_cfg.py", '{}/conf/input_cfg.py'.format(task_config.task_dir))
+        # shutil.move("input_cfg.pkl", '{}/conf/input_cfg.pkl'.format(task_config.task_dir))
+        shutil.copy(task_config.cmssw_config, '{}/conf/input_cfg.py'.format(task_config.task_dir))
 
         createJobSandbox(params)
         createJobConfig(mode, params)
@@ -473,7 +480,7 @@ def printDoc(task_configs):
     cmssw_src = os.path.join(os.environ['CMSSW_BASE'], 'src')
 
     cmssw_repo = git.Repo(cmssw_src)
-    ntp_src = os.path.join(cmssw_src, 'Phase2EGTriggerAnalysis')
+  
     
 
     print('\n\n\n')
@@ -483,9 +490,12 @@ def printDoc(task_configs):
     print(f'   * CMSSW version: `{os.environ["CMSSW_VERSION"]}`')
     print(f'   * CMSSW git branch: `{cmssw_repo.active_branch.name}`')
 
-    if(os.path.exists(ntp_src)):
-        ntp_repo = git.Repo(ntp_src)
-        print(f'   * `Phase2EGTriggerAnalysis` git branch: `{ntp_repo.active_branch.name}`')
+
+    for pkg in ['Phase2EGTriggerAnalysis', 'FastPUPPI']:
+        ntp_src = os.path.join(cmssw_src, pkg)
+        if(os.path.exists(ntp_src)):
+            ntp_repo = git.Repo(ntp_src)
+            print(f'   * `{pkg}` git branch: `{ntp_repo.active_branch.name}`')
 
     print(f'   * config file: `{task_configs[0].cmssw_config}`')
     print(f'   * tasks:')

@@ -1,4 +1,7 @@
 #!/bin/bash
+uname -a
+
+env
 
 CLUSTERID=$1
 PROCID=$2
@@ -27,7 +30,7 @@ cp ${ABSTASKBASEDIR}/sandbox.tgz .
 tar xvf sandbox.tgz
 eval `scram runtime -sh`
 #cd ${ABSTASKCONFDIR}
-cp ${ABSTASKCONFDIR}/input_cfg.pkl ${BATCH_DIR}/
+# cp ${ABSTASKCONFDIR}/input_cfg.pkl ${BATCH_DIR}/
 cp ${ABSTASKCONFDIR}/input_cfg.py ${BATCH_DIR}/
 cp ${ABSTASKCONFDIR}/job_config_${PROCID}.py ${BATCH_DIR}/
 # python process_pickler.py job_config_${PROCID}.py ${BATCH_DIR}/job_config.py
