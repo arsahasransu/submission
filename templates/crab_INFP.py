@@ -6,6 +6,7 @@ config = config()
 
 config.General.requestName = 'TEMPL_REQUESTNAME'
 config.Data.inputDataset = 'TEMPL_INPUTDATASET'
+config.Data.partialDataset = True
 
 config.General.workArea = 'TEMPL_TASKDIR'
 config.General.transferOutputs = True
