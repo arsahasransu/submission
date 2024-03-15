@@ -1,3 +1,11 @@
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
 
 Common:
   mode: FP
@@ -6,16 +14,16 @@ Common:
   tasks:
     # - DoubleElectron_FlatPt-1To100_PU0
     - TT_PU200
-    - DYToLL_M-50_PU200
+    # - DYToLL_M-50_PU200
     - DoubleElectron_FlatPt-1To100_PU200
-    # - DoublePhoton_FlatPt-1To100_PU200
+    - DoublePhoton_FlatPt-1To100_PU200
     - NuGunAllEta_PU200
-    - ZprimeToEE_M-6000_PU200
+    # - ZprimeToEE_M-6000_PU200
 
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
   cmssw_config: ../FastPUPPI/NtupleProducer/python/runPerformanceNTuple.py
-  version: v100C
+  version: v131Xv3I
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fp_ntuples
   ncpu: 1
   output_file_name: perfNano.root
@@ -32,25 +40,31 @@ DoubleElectron_FlatPt-1To100_PU0:
   
 DoubleElectron_FlatPt-1To100_PU200:
   # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/DoubleElectron_FlatPt-1To100_PU200
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v3/DoubleElectron_FlatPt-1To100_PU200
   crab: False
   splitting_mode: file_based
-  splitting_granularity: 1
+  splitting_granularity: 2
   inline_customize: 
     - addGenLep([11,22]);
     - addTkEG();
+    - addStaEG()
     - noResp()
-  job_flavor: longlunch
+  job_flavor: microcentury
   max_events: -1
 
 
 DoublePhoton_FlatPt-1To100_PU200:
-  input_dataset: /DoublePhoton_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  # input_directory =
-  crab: True
-  splitting_mode: EventAwareLumiBased
-  splitting_granularity: 2000
-  # job_flavor =
+  # input_dataset: /DoublePhoton_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v3/DoublePhoton_FlatPt-1To100_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - addStaEG()
+    - noResp()
+  job_flavor: microcentury
   max_events: -1
 
 
@@ -66,16 +80,18 @@ DoublePhoton_FlatPt-1To100_PU200:
 
 NuGunAllEta_PU200:
   # input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/SingleNeutrino_PU200
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v3/SingleNeutrino_PU200
   crab: False
   splitting_mode: file_based
-  splitting_granularity: 1
+  splitting_granularity: 2
   inline_customize: 
     - addGenLep([11,22]);
     - addTkEG();
+    - addHGCalTPs()
+    - addStaEG()
     - noResp()
-    - addSeededConeJets()
-  job_flavor: longlunch
+    # - addSeededConeJets()
+  job_flavor: microcentury
   max_events: -1
 
 
@@ -88,13 +104,13 @@ DYToLL_M-50_PU200:
   input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/DYToLL_M-50_PU200/
   crab: False
   splitting_mode: file_based
-  splitting_granularity: 1
+  splitting_granularity: 2
   inline_customize: 
     - addGenLep([11,22]);
     - addTkEG();
     - noResp()
-    - addSeededConeJets()
-  job_flavor: longlunch
+    # - addSeededConeJets()
+  job_flavor: microcentury
   max_events: -1
 
 
@@ -116,16 +132,16 @@ DYToLL_M-50_PU200:
 
 TT_PU200:
   # input_dataset: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v2/FEVT
-  input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/12_5_X/NewInputs125X/150223/TTbar_PU200/
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v3/TTbar_PU200
   crab: False
   splitting_mode: file_based
-  splitting_granularity: 1
+  splitting_granularity: 2
   inline_customize: 
     - addGenLep([11,22]);
     - addTkEG();
     - noResp()
-    - addSeededConeJets()
-  job_flavor: longlunch
+    # - addSeededConeJets()
+  job_flavor: microcentury
   max_events: -1
 
 
@@ -139,5 +155,5 @@ ZprimeToEE_M-6000_PU200:
     - addGenLep([11,22]);
     - addTkEG();
     - noResp()
-  job_flavor: longlunch
+  job_flavor: microcentury
   max_events: -1

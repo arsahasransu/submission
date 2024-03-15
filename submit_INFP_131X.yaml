@@ -5,19 +5,19 @@ Common:
   
   tasks:
     # - DoubleElectron_FlatPt-1To100_PU0
-    - TT_PU200
-    # - DYToLL_PU200
-    - DoubleElectron_FlatPt-1To100_PU200
-    - DoublePhoton_FlatPt-1To100_PU200
-    - NuGunAllEta_PU200
-    - DYToLL_M10To50_PU200
-    - DYToLL_M50_PU200
-    # - ZprimeToEE_M-6000_PU200
+    # - TT_PU200
+    # # - DYToLL_PU200
+    # - DoubleElectron_FlatPt-1To100_PU200
+    # - DoublePhoton_FlatPt-1To100_PU200
+    # - NuGunAllEta_PU200
+    # - DYToLL_M10To50_PU200
+    # - DYToLL_M50_PU200
+    # # - ZprimeToEE_M-6000_PU200
 
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
   cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
-  version: v102A
+  version: 131Xv3a
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
   ncpu: 1
   output_file_name: inputs131X.root
