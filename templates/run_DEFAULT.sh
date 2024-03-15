@@ -6,7 +6,7 @@ env
 CLUSTERID=$1
 PROCID=$2
 
-source params.sh
+source ./params.sh
 
 
 BATCH_DIR=${PWD}
@@ -26,9 +26,11 @@ source /afs/cern.ch/user/c/cerminar/scripts/cmssetup.sh
 export SCRAM_ARCH=${SCRAMARCH}
 scram proj CMSSW ${CMSSWVERSION}
 cd ${CMSSWVERSION}
-cp ${ABSTASKBASEDIR}/sandbox.tgz .
+cp ../sandbox.tgz .
+# cp ${ABSTASKBASEDIR}/sandbox.tgz .
 tar xvf sandbox.tgz
 eval `scram runtime -sh`
+echo "SCRAM arch: ${SCRAM_ARCH} CMSSW version: ${CMSSWVERSION}"
 #cd ${ABSTASKCONFDIR}
 # cp ${ABSTASKCONFDIR}/input_cfg.pkl ${BATCH_DIR}/
 cp ${ABSTASKCONFDIR}/input_cfg.py ${BATCH_DIR}/

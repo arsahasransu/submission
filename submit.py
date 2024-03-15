@@ -20,7 +20,7 @@ def parse_yaml(filename):
 
 
 class SandboxTarball(object):
-    def __init__(self, name=None, mode='w:bz2', params=None):
+    def __init__(self, name=None, mode='w:xz', params=None):
         self.params = params
         self.tarfile = tarfile.open(name=name, mode=mode, dereference=True)
         self.checksum = None
@@ -371,6 +371,8 @@ def createJobExecutable(mode, params):
     shutil.copy(run_template_name, '{}/run.sh'.format(params['TEMPL_TASKCONFDIR']))
     shutil.copy('templates/copy_files.sh', '{}/copy_files.sh'.format(params['TEMPL_TASKDIR']))
     os.chmod(os.path.join(params['TEMPL_TASKDIR'], 'copy_files.sh'),  0o754)
+    shutil.copy('templates/cmssw_setup.sh', '{}/cmssw_setup.sh'.format(params['TEMPL_TASKBASEDIR']))
+    os.chmod(os.path.join(params['TEMPL_TASKBASEDIR'], 'cmssw_setup.sh'),  0o754)
     params_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], 'params.sh'), 'w')
     templs_keys = [key for key in list(params.keys()) if 'TEMPL_' in key]
     for key in templs_keys:
@@ -438,7 +440,7 @@ def createTaskSetup(task_config, config_file):
 
 
 def submitTask(sub_name, task_config):
-    submit_cmd = 'condor_submit {}/conf/condorSubmit.sub -batch-name {}_{}'.format(task_config.task_dir, sub_name, task_config.task_name)
+    submit_cmd = 'condor_submit {}/conf/condorSubmit.sub -batch-name {}_{}_{}'.format(task_config.task_dir, sub_name, task_config.version, task_config.task_name)
     if task_config.crab:
         submit_cmd = 'crab submit {}/conf/crab.py'.format(task_config.task_dir)
     try:
@@ -506,16 +508,97 @@ def printDoc(task_configs):
         if hasattr(task, 'input_directory'):
             print(f'          * dataset: `{task.input_directory}`')
 
+import multiprocessing
+import time
+import glob
+
+class TaskManager:
+    def __init__(self, sub_name, tasks, num_processes, local_dir_base):
+        self.tasks = tasks
+        self.num_processes = num_processes
+        self.sub_name = sub_name
+        self.local_dir_base = local_dir_base
+
+    def configure(self, task_config, cluster, job_id):
+        # Simulate configuration step
+        print(f"Configuring task {task_config}")
+        job_dir = os.path.join(self.local_dir_base, f'{self.sub_name}_{task_config.version}_{task_config.task_name}_{cluster}_{job_id}')
+        os.mkdir(job_dir)
+        shutil.copy(f'{task_config.task_base_dir}/sandbox.tgz' , job_dir)
+        shutil.copy(f'{task_config.task_base_dir}/cmssw_setup.sh' , job_dir)
+        shutil.copy(f'{task_config.task_dir}/copy_files.sh' , job_dir)
+        shutil.copy(f'{task_config.task_dir}/conf/params.sh' , job_dir)
+        shutil.copy(f'{task_config.task_dir}/conf/run.sh' , job_dir)
+        shutil.copy(f'{task_config.task_dir}/conf/input_cfg.py' , job_dir)
+        shutil.copy(f'{task_config.task_dir}/conf/job_config_{job_id}.py' , job_dir)
+        return job_dir
+
+    def execute(self, task):
+        def execute_script_in_dir(directory, command, stdout_file, stderr_file):
+            print(f'dir: {directory}')
+            print(f'command: {command}')
+            print(f'std out: {stdout_file}')
+            print(f'std err: {stderr_file}')
+            # Execute the script
+            with open(stdout_file, "a") as stdout_f:
+                with open(stderr_file, "a") as stderr_f:
+                    # Execute the script in the subprocess
+                    proc = subprocess.Popen(command, cwd=directory, stdout=stdout_f, stderr=stderr_f, env={})
+                    proc.wait()
+            print(f'process return code: {proc.returncode}')
+            return proc.returncode
+
+        # execute_script_in_dir(job_dir, 'cmssw_setup.sh')
+        print (task)
+        task_config = task[0]
+        cluster = task[1]
+        job = task[2]
+        # Simulate execution step
+        print(f"Executing task {task_config}, cluster: {cluster}, job: {job}")
+        job_dir = self.configure(task_config, cluster, job)
+        stdout_file = f'{job_dir}/local_{cluster}_{job}.out'
+        stderr_file = f'{job_dir}/local_{cluster}_{job}.err'
+        cmsRunRet = 1
+        copyRet = 1
+        cmsRunRet = execute_script_in_dir(job_dir, ['sh', 'run.sh', str(cluster), str(job)], stdout_file, stderr_file)
+        if cmsRunRet == 0:
+            copyRet = execute_script_in_dir(job_dir, ['./copy_files.sh'], stdout_file, stderr_file)
+        shutil.copy(stdout_file , f'{task_config.task_dir}/logs/')
+        shutil.copy(stderr_file , f'{task_config.task_dir}/logs/')
+        if copyRet == 0:
+            shutil.rmtree(job_dir)
+
+
+    def count_exec_files(self, task_config):
+        file_pattern = "job_config_*.py"
+        # Use glob to find files matching the pattern
+        matching_files = glob.glob(f'{task_config.task_dir}/conf/job_config_*.py')
+        return len(matching_files)
+
+    def run(self):
+        with multiprocessing.Pool(processes=self.num_processes) as pool:
+            args_list = []
+            for task in self.tasks:
+                n_jobs = self.count_exec_files(task)
+                # n_jobs = 2
+                print(f"task: {task} # of jobs: {n_jobs}")
+                for job in range(0, n_jobs):
+                    args_list.append((task, 0, job))
+                    # self.execute((task, 0, job))
+            pool.map(self.execute, args_list)
 
 def main():
     usage = ('usage: %prog [options]\n'
              + '%prog -h for help')
     parser = optparse.OptionParser(usage)
-    parser.add_option('-f', '--file', dest='CONFIGFILE', help='specify the ini configuration file')
+    parser.add_option('-f', '--file', dest='CONFIGFILE', help='specify the yaml configuration file')
     parser.add_option("--create", action="store_true", dest="CREATE", default=False, help="create the job configuration")
     parser.add_option("--submit", action="store_true", dest="SUBMIT", default=False, help="submit the jobs to condor")
     parser.add_option("--status", action="store_true", dest="STATUS", default=False, help="check the status of the condor tasks")
+    parser.add_option("--run-local", action="store_true", dest="RUN", default=False, help="run the tasks on the local host")
     parser.add_option("--doc", action="store_true", dest="DOC", default=False, help="print setup for documentation")
+    parser.add_option('-j', '--jobs', dest='NJOBS', help='specify the # of parallel jobs for local processing', default=4)
+    parser.add_option('-d', '--dir', dest='LOCALDIR', help='specify the top local directory for local jobs')
 
     global opt, args
     (opt, args) = parser.parse_args()
@@ -549,6 +632,13 @@ def main():
             print('-- Submitting task {}'.format(task_conf.task_name))
             # 1 create local dir
             submitTask(sub_name, task_conf)
+    elif opt.RUN:
+        if not opt.LOCALDIR:
+            print("Error: LOCALDIR not specified. Please use the -d option to specify the top local directory for local jobs.")
+            parser.print_help()
+            exit(1)
+        tm = TaskManager(sub_name, task_configs, int(opt.NJOBS), opt.LOCALDIR)
+        tm.run()
     elif opt.STATUS:
         for task_conf in task_configs:
             print('-- Status of task {}'.format(task_conf.task_name))
