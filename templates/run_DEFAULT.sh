@@ -22,7 +22,7 @@ echo 'OUTPUT-FILE' ${OUTFILE}
 echo 'PROCID='${PROCID} >> job_info.sh
 echo 'CLUSTERID='${CLUSTERID} >> job_info.sh
 
-source /afs/cern.ch/user/c/cerminar/scripts/cmssetup.sh
+source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=${SCRAMARCH}
 scram proj CMSSW ${CMSSWVERSION}
 cd ${CMSSWVERSION}
