@@ -1,9 +1,6 @@
 from CRABClient.UserUtilities import config
 config = config()
 
-# config.General.requestName = 'SingleGammaPt25Eta1p6_2p8_PU0'
-# config.Data.inputDataset = '/SingleGammaPt25Eta1p6_2p8/PhaseIITDRFall17DR-noPUFEVT_93X_upgrade2023_realistic_v2-v1/GEN-SIM-DIGI-RAW'
-
 config.General.requestName = 'TEMPL_REQUESTNAME'
 config.Data.inputDataset = 'TEMPL_INPUTDATASET'
 config.Data.partialDataset = True
@@ -27,5 +24,5 @@ config.Data.publication = False
 config.Data.ignoreLocality = False
 config.Data.outputDatasetTag = 'TEMPL_DATASETTAG'
 
-config.Site.storageSite = 'T2_CH_CERN'
+config.Site.storageSite = 'TEMPL_STORAGE'
 config.JobType.allowUndistributedCMSSW = True
