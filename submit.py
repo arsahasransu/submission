@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import platform
 import tarfile
+import warnings
 import git
 from process_pickler import pickler
 
@@ -116,18 +117,37 @@ class TaskConfig:
             common_config['name'],
             common_config['version'],
             taskName)
-        self.output_dir_base = common_config['output_dir_base']
-        self.output_dir = '{}/{}/{}/{}'.format(
-            common_config['output_dir_base'],
-            self.task_name,
-            common_config['mode'],
-            self.version)
+        if 'output_dir_base' in common_config.keys():
+            self.output_dir_base = common_config['output_dir_base']
+            self.output_dir = '{}/{}/{}/{}'.format(
+                common_config['output_dir_base'],
+                self.task_name,
+                common_config['mode'],
+                self.version)
+        else:
+            self.output_dir_base = None
+            self.output_dir = '{}/{}/{}/{}'.format(
+                'userOutput',
+                self.task_base_dir,
+                common_config['mode'],
+                self.version)
         self.ncpu = common_config['ncpu']
         self.output_file_name = common_config['output_file_name']
+        if 'storage_site' in common_config.keys():
+            self.storage_site = common_config['storage_site']
+        else:
+            self.storage_site = 'T2_CH_CERN'
 
     def __str__(self):
         return 'task-name {}: version {}'.format(self.task_name, self.version)
 
+
+def check_substitution_complete(template):
+    if('TEMPL_' in template):
+        for line in template.split('\n'):
+            if 'TEMPL_' in line:
+                raise RuntimeError(
+                    'Templated argument below not addressed!\n{0}'.format(line))
 
 def getLSs(file_name):
     from subprocess import Popen, PIPE
@@ -266,9 +286,18 @@ def getJobParams(mode, task_conf):
         if hasattr(task_conf, 'input_dataset'):
             params['TEMPL_INPUTDATASET'] = task_conf.input_dataset
         params['TEMPL_DATASETTAG'] = '{}_{}'.format(task_conf.task_name, task_conf.version)
-        params['TEMPL_CRABOUTDIR'] = task_conf.output_dir_base.split('/eos/cms')[1].replace('/cmst3/', '/group/cmst3/')
+        if task_conf.output_dir_base is not None:
+            if task_conf.output_dir_base.startswith('/eos/cms'):
+                params['TEMPL_CRABOUTDIR'] = task_conf.output_dir_base.split('/eos/cms')[1].replace('/cmst3/', '/group/cmst3/')
+            else:
+                warnings.warn('For crab submissions, setting the "output_dir_base" defines LFNDirBase which might be wrong!'
+                              ' Make sure that the LFNDirBase looks reasonable. Default implementation for "/eos/cms"'
+                              ' is defined.')
+                params['TEMPL_CRABOUTDIR'] = task_conf.output_dir_base
         if hasattr(task_conf, 'inline_customize'):
             params['TEMPL_CUSTOMIZE'] = '\n'.join(task_conf.inline_customize)
+        if hasattr(task_conf, 'storage_site'):
+            params['TEMPL_STORAGE'] = task_conf.storage_site
 
         def get_from_env(variable):
             if variable in os.environ:
@@ -358,6 +387,7 @@ def createCondorConfig(mode, params):
     for key in templs_keys:
         condor_template = condor_template.replace(key, str(params[key]))
 
+    check_substitution_complete(condor_template)
     condor_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], 'condorSubmit.sub'), 'w')
     condor_file.write(condor_template)
     condor_file.close()
@@ -397,6 +427,12 @@ def createCrabConfig(mode, params):
     for key in templs_keys:
         crab_template = crab_template.replace(key, str(params[key]))
 
+    if 'TEMPL_CRABOUTDIR' not in templs_keys:
+        crab_template_lines = crab_template.split('\n')
+        crab_template_lines = [line for line in crab_template_lines if 'outLFNDirBase' not in line]
+        crab_template = '\n'.join(crab_template_lines)
+
+    check_substitution_complete(crab_template)
     crab_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], 'crab.py'), 'w')
     crab_file.write(crab_template)
     crab_file.close()
