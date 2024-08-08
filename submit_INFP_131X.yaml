@@ -4,7 +4,7 @@ Common:
   name: fpinputs
   
   tasks:
-    # - DYToLL_M50_PU0
+    - DYToLL_M50_PU0_Trial1_240801
     # - DoubleElectron_FlatPt-1To100_PU0
     # - TT_PU200
     # # - DYToLL_PU200
@@ -19,10 +19,10 @@ Common:
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
   cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
   version: 131Xv3a
-  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
+  #output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
   ncpu: 1
   output_file_name: inputs131X.root
-  #storage_site: T2_UK_SGrid_RALPP
+  storage_site: T2_UK_SGrid_RALPP
 
 # DoubleElectron_FlatPt-1To100_PU0:
 #   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
@@ -88,12 +88,12 @@ DYToLL_M10To50_PU200:
   max_events: 50000
 
 
-# DYToLL_M50_PU0:
-#   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-noPU_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
-#   crab: True
-#   splitting_mode: Automatic
-#   splitting_granularity: 1000
-#   max_events: 50000
+DYToLL_M50_PU0_Trial1_240801:
+  input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-noPU_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  max_events: 10
 
 DYToLL_M50_PU200:
   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
