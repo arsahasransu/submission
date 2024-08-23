@@ -15,14 +15,16 @@ Common:
     # - DYToLL_M50_PU200
     # # - ZprimeToEE_M-6000_PU200
 
-
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
   version: 131Xv3a
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
   ncpu: 1
   output_file_name: inputs131X.root
   #storage_site: T2_UK_SGrid_RALPP
+
+Configuration:
+  - mode: INFP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
 
 # DoubleElectron_FlatPt-1To100_PU0:
 #   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD

@@ -105,8 +105,9 @@ class TaskConfig:
 
         self.task_name = taskName
         self.version = common_config['version']
-        self.cmssw_config = common_config['cmssw_config']
+        self.cmssw_configs = cfgfile['Configuration']
         
+
         for key, value in list(task_config.items()):
             setattr(self, key, value)
 
@@ -162,7 +163,7 @@ def getLSs(file_name):
     return lumis
 
 
-def splitFiles(files, splitting_mode, splitting_granularity):
+def splitFiles(files, splitting_mode, splitting_granularity, max_events=None):
     split_files = []
     split_logic = []
     if splitting_mode == 'file_based':
@@ -176,6 +177,12 @@ def splitFiles(files, splitting_mode, splitting_granularity):
                 split_files.append([file_name])
                 logic = '1:{}-1:{}'.format(ls, ls)
                 split_logic.append(logic)
+    elif splitting_mode == 'event_ranges':
+        njobs = int(max_events/splitting_granularity)
+        for ij in range(0, njobs):
+            split_files.append(files)
+            split_logic.append(ij*int(splitting_granularity))
+    
     # elif splitting_mode == 'EventAwareLumiBased' or splitting_mode == 'Automatic':
     #     pass
     else:
@@ -219,27 +226,35 @@ def getFilesForDataset(dataset, site=None):
 
 def getJobParams(mode, task_conf):
     params = {}
-    if mode == 'NTP' or mode == 'L1IN' or mode == 'SIMDIGI' or mode == 'INFP' or mode == 'FP':
+    # if mode in ['NTP', 'L1IN', 'SIMDIGI', 'INFP', 'FP', 'GENSIM']:
+    if True:
         input_files = []
         if not task_conf.crab:
             if hasattr(task_conf, 'input_directory'):
-                print(('Reading inpout files from directory: {}'.format(task_conf.input_directory)))
+                print(('Reading input files from directory: {}'.format(task_conf.input_directory)))
                 input_files = ['root://eoscms.cern.ch/'+os.path.join(task_conf.input_directory, file_name) for file_name in os.listdir(task_conf.input_directory) if file_name.endswith('.root')]
             elif hasattr(task_conf, 'input_dataset'):
-                print(('Reading inpout files from dataset: {}'.format(task_conf.input_dataset)))
+                print(('Reading input files from dataset: {}'.format(task_conf.input_dataset)))
                 input_files = getFilesForDataset(task_conf.input_dataset, site='T2_CH_CERN')
+            elif hasattr(task_conf, 'input_files'):
+                print(('Reading input files : {}'.format(task_conf.input_files)))
+                input_files = task_conf.input_files
             else:
                 print(('ERROR: no input specified for task: {}'.format(task_conf.task_name)))
                 sys.exit(1)
         # print input_files
 
         max_events = -1
-        # FIXME: this is not considered when submitting tasks without crab...for now
+        # NOTE: this is not considered when submitting tasks without crab...unless the splitting is event_ranges
         if(hasattr(task_conf, 'max_events')):
             max_events = task_conf.max_events
 
         if not task_conf.crab:
-            split_files, split_logic = splitFiles(input_files, task_conf.splitting_mode, task_conf.splitting_granularity)
+            split_files, split_logic = splitFiles(
+                input_files, 
+                task_conf.splitting_mode, 
+                task_conf.splitting_granularity, 
+                max_events)
             n_jobs_max = len(split_files)
             n_jobs = n_jobs_max
             if(hasattr(task_conf, 'max_njobs')):
@@ -251,9 +266,12 @@ def getJobParams(mode, task_conf):
             params['NJOBS'] = n_jobs
             params['TEMPL_JOBFLAVOR'] = task_conf.job_flavor
             params['INFILES'] = split_files
-            params['SEEDS'] = list(range(0, n_jobs))
+            params['SEEDS'] = list(range(1, n_jobs+1))
             params['SPLIT'] = split_logic
-            params['TEMPL_NEVENTS'] = -1
+            if task_conf.splitting_mode == 'event_ranges':
+                params['TEMPL_NEVENTS'] = task_conf.splitting_granularity
+            else:
+                params['TEMPL_NEVENTS'] = -1
 
         else:
             print('preparing crab submission')
@@ -277,6 +295,7 @@ def getJobParams(mode, task_conf):
         params['TEMPL_TASKDIR'] = task_conf.task_dir
         params['TEMPL_TASKCONFDIR'] = '{}/conf'.format(task_conf.task_dir)
         params['TEMPL_ABSTASKCONFDIR'] = os.path.join(os.environ["PWD"], params['TEMPL_TASKCONFDIR'])
+        params['TEMPL_ABSTASKLOGDIR'] = os.path.join(os.environ["PWD"], params['TEMPL_TASKDIR'], 'logs')
         params['TEMPL_OUTFILE'] = task_conf.output_file_name
         params['TEMPL_OUTDIR'] = task_conf.output_dir
         params['TEMPL_NCPU'] = task_conf.ncpu
@@ -333,7 +352,10 @@ def createJobSandbox(params):
     else:
         print(('NOTE: Sandbox tar: {} already exists, reusing it!'.format(sb_tar_name)))
 
-def createJobConfig(mode, params):
+def createJobConfig(mode, params, step_name=None, in_file=None, out_file=None):
+    step_name_str = ''
+    if step_name:
+        step_name_str = f'_{step_name}'
     custom_template_filename = 'templates/jobCustomization_{}_cfg.py'.format(mode)
     default_template_filename = 'templates/jobCustomization_{}_cfg.py'.format('DEFAULT')
     if not os.path.isfile(custom_template_filename):
@@ -342,20 +364,33 @@ def createJobConfig(mode, params):
         custom_template_file = open(custom_template_filename)
         custom_template = custom_template_file.read()
         custom_template_file.close()
+        # root cfg
+        
+        custom_template = custom_template.replace('TEMPL_ROOTCFG', f'input{step_name_str}_cfg')
         # input files
         file_list = formatFileList(params['INFILES'][job_idx])
+        # we override the input file list for steps which are not the first one
+        if in_file:
+            file_list = formatFileList([in_file])
         custom_template = custom_template.replace('TEMPL_INFILES', file_list)
-        # pu files
+        if out_file:
+            custom_template = custom_template.replace('TEMPL_OUTFILE', out_file)
 
+        # pu files
         if len(params['PUFILES']) != 0:
             pu_file_list = formatFileList(params['PUFILES'][job_idx])
             custom_template = custom_template.replace('TEMPL_PUFILELIST', pu_file_list)
 
-        if len(params['SPLIT']) != 0:
-            job_logic = params['SPLIT'][job_idx]
-            custom_template += 'process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange("{}")\n'.format(job_logic)
+        if params['TEMPL_SPLITTINGMODE'] == 'lumi_based':
+            if len(params['SPLIT']) != 0:
+                job_logic = params['SPLIT'][job_idx]
+                custom_template += 'process.source.lumisToProcess = cms.untracked.VLuminosityBlockRange("{}")\n'.format(job_logic)
+        elif params['TEMPL_SPLITTINGMODE'] == 'event_ranges':
+            params['TEMPL_FIRSTLUMI'] = 1000+job_idx
+            params['TEMPL_SKIPENVETS'] = params['SPLIT'][job_idx]
 
-        custom_template = custom_template.replace('TEMPL_SEED', str(params['SEEDS'][job_idx]))
+
+        custom_template = custom_template.replace('TEMPL_SEED', str(params['SEEDS'][job_idx]*100))
 
         templs_keys = [key for key in list(params.keys()) if 'TEMPL_' in key]
         for key in templs_keys:
@@ -369,7 +404,7 @@ def createJobConfig(mode, params):
                     print(line)
             sys.exit(20)
 
-        job_config_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], 'job_config_{}.py'.format(job_idx)), 'w')
+        job_config_file = open(os.path.join(params['TEMPL_TASKCONFDIR'], f'job_config{step_name_str}_{job_idx}.py'), 'w')
         job_config_file.write(custom_template)
         job_config_file.close()
 
@@ -463,14 +498,32 @@ def createTaskSetup(task_config, config_file):
         # pickler(task_config.cmssw_config, 'input_cfg.py')
         # shutil.move("input_cfg.py", '{}/conf/input_cfg.py'.format(task_config.task_dir))
         # shutil.move("input_cfg.pkl", '{}/conf/input_cfg.pkl'.format(task_config.task_dir))
-        shutil.copy(task_config.cmssw_config, '{}/conf/input_cfg.py'.format(task_config.task_dir))
+        previous_step_out_file = None
+        out_file = None
+        for ic,config in enumerate(task_config.cmssw_configs):
+            lastc = (ic == len(task_config.cmssw_configs) - 1)
+            step_name = None
+            step_name_str_ = ''
+
+            if len(task_config.cmssw_configs) > 1:
+                step_name = f'step{ic+1}'
+                step_name_str_ = f'_{step_name}'
+            
+            if not lastc:
+                out_file = f'out{step_name_str_}.root'
+            else:
+                out_file = None
+
+            shutil.copy(config['cmssw_config'], f'{task_config.task_dir}/conf/input{step_name_str_}_cfg.py')
+            createJobConfig(config['mode'], params, step_name, previous_step_out_file, out_file)
+            previous_step_out_file = f'file:{out_file}'
 
         createJobSandbox(params)
-        createJobConfig(mode, params)
         createCondorConfig(mode, params)
         createJobExecutable(mode, params)
     else:
-        shutil.copy(task_config.cmssw_config, '{}/conf/input_cfg.py'.format(task_config.task_dir))
+        # FIXME: should throw an error if more than 1 step used with crab
+        shutil.copy(task_config.cmssw_configs[0]['cmssw_config'], '{}/conf/input_cfg.py'.format(task_config.task_dir))
         createCrabConfig(mode, params)
     return
 

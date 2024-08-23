@@ -11,11 +11,15 @@ Common:
     # - DoublePhoton_FlatPt-1To100_PU200
     - NuGunAllEta_PU200
 
-  cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
   version: v92B
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/ntuples
   ncpu: 1
   output_file_name: ntuple.root
+
+Configuration:
+  - mode: NTP
+    cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
+
 
 # DoubleElectron_FlatPt-1To100_PU0:
 #   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
