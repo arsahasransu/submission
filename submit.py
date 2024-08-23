@@ -588,7 +588,15 @@ def printDoc(task_configs):
             ntp_repo = git.Repo(ntp_src)
             print(f'   * `{pkg}` git branch: `{ntp_repo.active_branch.name}`')
 
-    print(f'   * config file: `{task_configs[0].cmssw_config}`')
+    if len(task_configs[0].cmssw_configs) > 1:
+        print(f'   * config files:')
+        
+        for ic,conf in enumerate(task_configs[0].cmssw_configs):
+            print(f'       - step{ic}: `{conf["cmssw_config"]}`, mode: `{conf["mode"]}`')
+    else:
+        print(f'   * config file: `{task_configs[0].cmssw_configs[0]["cmssw_config"]}` mode: `{task_configs[0].cmssw_configs[0]["mode"]}`')
+
+
     print(f'   * tasks:')
     for task in task_configs:
         print(f'      * `{task.task_name}`')
