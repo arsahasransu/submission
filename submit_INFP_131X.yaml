@@ -5,6 +5,9 @@ Common:
   
   tasks:
     # - DYToLL_M50_PU0
+    - HAHM_ZdToEE_m2_pu200
+    - HAHM_ZdToEE_m5_pu200
+    - HAHM_ZdToEE_m15_pu200
     # - DoubleElectron_FlatPt-1To100_PU0
     # - TT_PU200
     # # - DYToLL_PU200
@@ -16,7 +19,7 @@ Common:
     # # - ZprimeToEE_M-6000_PU200
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  version: 131Xv3a
+  version: 131Xv3d
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
   ncpu: 1
   output_file_name: inputs131X.root
@@ -139,11 +142,29 @@ TT_PU200:
   max_events: 100000
 
 
-# ZprimeToEE_M-6000_PU200:
-#   input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-#   # input_directory =
-#   crab: True
-#   splitting_mode: EventAwareLumiBased
-#   splitting_granularity: 4000
-#   # job_flavor =
-#   max_events: -1
+HAHM_ZdToEE_m2_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m2_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4
+
+HAHM_ZdToEE_m5_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m5_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4
+
+HAHM_ZdToEE_m15_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m15_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4
