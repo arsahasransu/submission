@@ -45,19 +45,19 @@ ls -lrt
 echo 'now we run STEP1...fasten your seatbelt: '
 cmsRun job_config_step1_${PROCID}.py 2>&1 | tee step1_${PROCID}.${CLUSTERID}.log > /dev/null
 EXIT_CODE=${PIPESTATUS[0]}
+gzip step1_${PROCID}.${CLUSTERID}.log && cp -v step1_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'STEP1 log handling failed!'; exit 12; }
 if [ $EXIT_CODE -ne 0 ]; then
     echo "STEP1 failed with exit code $EXIT_CODE"
     exit 11
 fi
-gzip step1_${PROCID}.${CLUSTERID}.log && cp -v step1_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'STEP1 log handling failed!'; exit 12; }
 echo '...done!'
 
 echo 'now we run STEP2...fasten your seatbelt: '
 cmsRun job_config_step2_${PROCID}.py 2>&1 | tee step2_${PROCID}.${CLUSTERID}.log > /dev/null
 EXIT_CODE=${PIPESTATUS[0]}
+gzip step2_${PROCID}.${CLUSTERID}.log && cp -v step2_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'STEP2 log handling failed!'; exit 22; }
 if [ $EXIT_CODE -ne 0 ]; then
     echo "STEP2 failed with exit code $EXIT_CODE"
     exit 21
 fi
-gzip step2_${PROCID}.${CLUSTERID}.log && cp -v step2_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'STEP2 log handling failed!'; exit 22; }
 echo '...done!'

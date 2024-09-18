@@ -41,9 +41,9 @@ ls -lrt
 echo 'now we run it...fasten your seatbelt: '
 cmsRun job_config_${PROCID}.py 2>&1 | tee cmsRun_${PROCID}.${CLUSTERID}.log > /dev/null
 EXIT_CODE=${PIPESTATUS[0]}
+gzip cmsRun_${PROCID}.${CLUSTERID}.log && cp -v cmsRun_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'cmsRun log handling failed!'; exit 12; }
 if [ $EXIT_CODE -ne 0 ]; then
     echo "cmsRun failed with exit code $EXIT_CODE"
     exit 11
 fi
-gzip cmsRun_${PROCID}.${CLUSTERID}.log && cp -v cmsRun_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'cmsRun log handling failed!'; exit 12; }
 echo '...done'
