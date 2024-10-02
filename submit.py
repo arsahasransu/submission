@@ -133,6 +133,10 @@ class TaskConfig:
                 common_config['mode'],
                 self.version)
         self.ncpu = common_config['ncpu']
+        if 'max_memory' in common_config.keys():
+            self.max_memory = common_config['max_memory']
+        else:
+            self.max_memory = 3000
         self.output_file_name = common_config['output_file_name']
         if 'storage_site' in common_config.keys():
             self.storage_site = common_config['storage_site']
@@ -299,6 +303,8 @@ def getJobParams(mode, task_conf):
         params['TEMPL_OUTFILE'] = task_conf.output_file_name
         params['TEMPL_OUTDIR'] = task_conf.output_dir
         params['TEMPL_NCPU'] = task_conf.ncpu
+
+        params['TEMPL_MEMORY'] = task_conf.max_memory
         params['TEMPL_SPLITGRANULARITY'] = task_conf.splitting_granularity
         params['TEMPL_SPLITTINGMODE'] = task_conf.splitting_mode
         params['TEMPL_REQUESTNAME'] = task_conf.task_name
