@@ -16,7 +16,7 @@ Common:
     # - TT_PU200
     # - DYToLL_M-10To50_PU200
     # - DYToLL_M-50_PU200
-    # - DoubleElectron_FlatPt-1To100_PU200
+    - DoubleElectron_FlatPt-1To100_PU200
     # # - DoublePhoton_FlatPt-1To100_PU200
     # - NuGunAllEta_PU200
     # # - ZprimeToEE_M-6000_PU200
@@ -25,7 +25,7 @@ Common:
     # - HAHM_ZdToEE_m15_pu200
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  version: v131Xv3Td
+  version: v131Xv3DEBUG
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fp_ntuples
   ncpu: 1
   output_file_name: perfNano.root
@@ -41,12 +41,14 @@ DoubleElectron_FlatPt-1To100_PU0:
   splitting_mode: file_based
   splitting_granularity: 1
   inline_customize: 
+    - noResp();
     - addGenLep([11,22]);
     - addTkEG();
     - addHGCalTPs()
     - addStaEG()
     - noResp()
     - addDecodedTk();
+    - addEGCrystalClusters();
   job_flavor: workday
   max_events: -1
 
@@ -57,12 +59,14 @@ DoubleElectron_FlatPt-1To100_PU200:
   splitting_mode: file_based
   splitting_granularity: 2
   inline_customize: 
+    - noResp();
     - addGenLep([11,22]);
     - addTkEG();
     - addHGCalTPs()
     - addStaEG()
     - noResp()
     - addDecodedTk();
+    - addEGCrystalClusters();
   job_flavor: microcentury
   max_events: -1
 
@@ -99,6 +103,7 @@ NuGunAllEta_PU200:
   splitting_mode: file_based
   splitting_granularity: 1
   inline_customize: 
+    - noResp();
     - addGenLep([11,22]);
     - addTkEG();
     - addHGCalTPs()
