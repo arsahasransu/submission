@@ -1,0 +1,56 @@
+
+Common:
+  mode: 2STEPS
+  name: prod
+  
+  tasks:
+    - HAHM_ZdToEE_m2_pu200
+    - HAHM_ZdToEE_m5_pu200
+    - HAHM_ZdToEE_m15_pu200
+
+
+  # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
+  version: 131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod
+  ncpu: 4
+  output_file_name: prod_131X.root
+  #storage_site: T2_UK_SGrid_RALPP
+
+Configuration:
+  - mode: RAWSIM
+    cmssw_config: ../step1_cfg.py
+  - mode: FEVTDEBUGHLT
+    cmssw_config: ../step2_cfg.py
+
+HAHM_ZdToEE_m5_pu200:
+  # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_files: 
+    - /store/cmst3/group/l1tr/gpetrucc/prod125X-lhe/HAHM_ZdToEE_M5.lhe
+  crab: False
+  splitting_mode: event_ranges
+  splitting_granularity: 250
+  job_flavor: workday
+  max_events: 10000
+  # max_njobs: 4
+
+HAHM_ZdToEE_m2_pu200:
+  # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_files: 
+    - /store/cmst3/group/l1tr/gpetrucc/prod125X-lhe/HAHM_ZdToEE_M2.lhe
+  crab: False
+  splitting_mode: event_ranges
+  splitting_granularity: 250
+  job_flavor: workday
+  max_events: 10000
+  # max_njobs: 4
+
+HAHM_ZdToEE_m15_pu200:
+  # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_files: 
+    - /store/cmst3/group/l1tr/gpetrucc/prod125X-lhe/HAHM_ZdToEE_M15.lhe
+  crab: False
+  splitting_mode: event_ranges
+  splitting_granularity: 250
+  job_flavor: workday
+  max_events: 10000
+  # max_njobs: 4

@@ -5,33 +5,52 @@ Common:
   
   tasks:
     # - DYToLL_M50_PU0
-    # - DoubleElectron_FlatPt-1To100_PU0
+    # - HAHM_ZdToEE_m2_pu200
+    # - HAHM_ZdToEE_m5_pu200
+    # - HAHM_ZdToEE_m15_pu200
+    - DoubleElectron_FlatPt-1To100_PU0
     # - TT_PU200
     # # - DYToLL_PU200
-    # - DoubleElectron_FlatPt-1To100_PU200
+    - DoubleElectron_FlatPt-1To100_PU200
+    - VBF_HToInvisible_PU200
     # - DoublePhoton_FlatPt-1To100_PU200
     # - NuGunAllEta_PU200
     # - DYToLL_M10To50_PU200
     # - DYToLL_M50_PU200
     # # - ZprimeToEE_M-6000_PU200
 
-
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
-  version: 131Xv3a
+  version: 131Xv9a
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
-  ncpu: 1
+  ncpu: 4
+  max_memory: 7000
   output_file_name: inputs131X.root
   #storage_site: T2_UK_SGrid_RALPP
 
-# DoubleElectron_FlatPt-1To100_PU0:
-#   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-#   # input_directory =
-#   crab: True
-#   splitting_mode: Automatic
-#   splitting_granularity: 400
-#   # job_flavor =
-#   max_events: -1
+Configuration:
+  - mode: INFP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs131X.py
+
+
+VBF_HToInvisible_PU200:
+  input_dataset: /VBF_HToInvisible_M-125_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory =
+  crab: True
+  splitting_mode: Automatic
+  splitting_granularity: 400
+  # job_flavor =
+  max_events: -1
+
+
+
+DoubleElectron_FlatPt-1To100_PU0:
+  input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  # input_directory =
+  crab: True
+  splitting_mode: Automatic
+  splitting_granularity: 400
+  # job_flavor =
+  max_events: -1
 
   
 DoubleElectron_FlatPt-1To100_PU200:
@@ -71,7 +90,8 @@ NuGunAllEta_PU200:
   splitting_mode: Automatic
   splitting_granularity: 400
   job_flavor: longlunch
-  max_events: 300000
+  max_events: -1
+  # max_events: 300000
 
 
 # /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Spring23DIGIRECOMiniAOD-PU200_Trk1GeV_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
@@ -85,7 +105,8 @@ DYToLL_M10To50_PU200:
   splitting_mode: Automatic
   splitting_granularity: 400
   job_flavor: longlunch
-  max_events: 50000
+  max_events: -1
+  # max_events: 50000
 
 
 # DYToLL_M50_PU0:
@@ -102,7 +123,8 @@ DYToLL_M50_PU200:
   splitting_mode: Automatic
   splitting_granularity: 400
   job_flavor: longlunch
-  max_events: 50000
+  max_events: -1
+  # max_events: 50000
 
 # DYToLL_PU200:
 #   # input_dataset =
@@ -134,14 +156,33 @@ TT_PU200:
   splitting_mode: Automatic
   splitting_granularity: 400
   # job_flavor =
-  max_events: 100000
+  # max_events: 100000
+  max_events: -1
 
 
-# ZprimeToEE_M-6000_PU200:
-#   input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
-#   # input_directory =
-#   crab: True
-#   splitting_mode: EventAwareLumiBased
-#   splitting_granularity: 4000
-#   # job_flavor =
-#   max_events: -1
+HAHM_ZdToEE_m2_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m2_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4
+
+HAHM_ZdToEE_m5_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m5_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4
+
+HAHM_ZdToEE_m15_pu200:
+  input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/prod/HAHM_ZdToEE_m15_pu200/2STEPS/131X_Phase2Spring23_FEVTDEBUGHLT_v0
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  job_flavor: microcentury
+  max_events: -1
+  # max_njobs: 4

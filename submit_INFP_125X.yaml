@@ -14,11 +14,14 @@ Common:
 
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs125X.py
   version: v100B
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs
   ncpu: 1
   output_file_name: inputs125X.root
+
+Configuration:
+  - mode: INFP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs125X.py
 
 DoubleElectron_FlatPt-1To100_PU0:
   input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-noPU_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
