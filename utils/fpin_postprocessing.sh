@@ -2,12 +2,14 @@
 
 
 directory_pairs=(
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DoubleElectron_FlatPt-1To100-gun/DoubleElectron_FlatPt-1To100_PU200_131Xv2 /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DoubleElectron_FlatPt-1To100_PU200"
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/TT_TuneCP5_14TeV-powheg-pythia8/TT_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/TTbar_PU200"
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DYToLL_M-50_PU200"
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DYToLL_M-10To50_TuneCP5_14TeV-pythia8/DYToLL_M10To50_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DYToLL_M-10To50_PU200"
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/MinBias_TuneCP5_14TeV-pythia8/NuGunAllEta_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/SingleNeutrino_PU200"
-    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DoublePhoton_FlatPt-1To100-gun/DoublePhoton_FlatPt-1To100_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DoublePhoton_FlatPt-1To100_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DoubleElectron_FlatPt-1To100-gun/DoubleElectron_FlatPt-1To100_PU200_131Xv2 /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DoubleElectron_FlatPt-1To100_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/TT_TuneCP5_14TeV-powheg-pythia8/TT_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/TTbar_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DYToLL_M-50_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DYToLL_M-10To50_TuneCP5_14TeV-pythia8/DYToLL_M10To50_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DYToLL_M-10To50_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/MinBias_TuneCP5_14TeV-pythia8/NuGunAllEta_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/SingleNeutrino_PU200"
+    # "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DoublePhoton_FlatPt-1To100-gun/DoublePhoton_FlatPt-1To100_PU200_131Xv2/ /store/cmst3/group/l1tr/cerminar/14_0_X/fpinputs_131X/v2/DoublePhoton_FlatPt-1To100_PU200"
+    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/MinBias_TuneCP5_14TeV-pythia8/NuGunAllEta_PU200_142Xv0/ /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/SingleNeutrino_PU200"
+    "/eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/DoubleElectron_FlatPt-1To100-gun/DoubleElectron_FlatPt-1To100_PU200_142Xv0/ /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/DoubleElectron_FlatPt-1To100_PU200"
     # "/path/to/source2 /path/to/target2"
     # "/path/to/source3 /path/to/target3"
     # Add more pairs as needed
