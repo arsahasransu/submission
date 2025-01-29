@@ -102,7 +102,7 @@ class TaskConfig:
         # print('Task: {}'.format(taskName))
         common_config = cfgfile['Common']
         task_config = cfgfile[taskName]
-        ral_condor_scratch = '/opt/ppd/scratch/asahasra/condor_scratch'
+        ral_condor_scratch = './' if 'workdir' not in common_config.keys() else common_config['workdir']
 
         self.task_name = taskName
         self.version = common_config['version']

@@ -10,6 +10,7 @@
 Common:
   mode: FP
   name: fp
+  workdir: '/opt/ppd/scratch/asahasra/condor_scratch'
   
   tasks:
     - DYToLL_M50_PU0

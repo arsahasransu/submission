@@ -2,10 +2,11 @@
 Common:
   mode: INFP
   name: fpinputs
+  workdir: ./
   
   tasks:
-    - DYToLL_M50_noPU_250128
-    - DYToLL_M50_PU200_250128
+    - DYToLL_M50_noPU_250129
+    - DYToLL_M50_PU200_250129
 
   version: 142Xv0
   ncpu: 1
@@ -17,19 +18,19 @@ Configuration:
   - mode: INFP
     cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs140X.py
 
-DYToLL_M50_noPU_250128:
+DYToLL_M50_noPU_250129:
   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-noPU_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 5
+  splitting_granularity: 4
   max_events: 100
   # max_events: 980
 
 
-DYToLL_M50_PU200_250128:
+DYToLL_M50_PU200_250129:
   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 5
+  splitting_granularity: 2
   max_events: 100
   # max_events: 989
