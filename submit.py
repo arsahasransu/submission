@@ -102,6 +102,7 @@ class TaskConfig:
         # print('Task: {}'.format(taskName))
         common_config = cfgfile['Common']
         task_config = cfgfile[taskName]
+        ral_condor_scratch = '/opt/ppd/scratch/asahasra/condor_scratch'
 
         self.task_name = taskName
         self.version = common_config['version']
@@ -111,10 +112,12 @@ class TaskConfig:
         for key, value in list(task_config.items()):
             setattr(self, key, value)
 
-        self.task_base_dir = '{}/{}/'.format(
+        self.task_base_dir = '{}/{}/{}/'.format(
+            ral_condor_scratch,
             common_config['name'],
             common_config['version'])
-        self.task_dir = '{}/{}/{}'.format(
+        self.task_dir = '{}/{}/{}/{}'.format(
+            ral_condor_scratch,
             common_config['name'],
             common_config['version'],
             taskName)
@@ -236,7 +239,9 @@ def getJobParams(mode, task_conf):
         if not task_conf.crab:
             if hasattr(task_conf, 'input_directory'):
                 print(('Reading input files from directory: {}'.format(task_conf.input_directory)))
-                input_files = ['root://eoscms.cern.ch/'+os.path.join(task_conf.input_directory, file_name) for file_name in os.listdir(task_conf.input_directory) if file_name.endswith('.root')]
+                file_prefix = 'root://eoscms.cern.ch/' if task_conf.input_directory.startswith('/eos/cms') else 'file:'
+                print(file_prefix)
+                input_files = [file_prefix+os.path.join(task_conf.input_directory, file_name) for file_name in os.listdir(task_conf.input_directory) if file_name.endswith('.root')]
             elif hasattr(task_conf, 'input_dataset'):
                 print(('Reading input files from dataset: {}'.format(task_conf.input_dataset)))
                 input_files = getFilesForDataset(task_conf.input_dataset, site='T2_CH_CERN')

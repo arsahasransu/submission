@@ -7,7 +7,6 @@ Common:
     - DYToLL_M50_noPU_250128
     - DYToLL_M50_PU200_250128
 
-  cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs140X.py
   version: 142Xv0
   ncpu: 1
   max_memory: 4000

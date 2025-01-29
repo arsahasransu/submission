@@ -1,0 +1,42 @@
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
+
+Common:
+  mode: FP
+  name: fp
+  
+  tasks:
+    - DYToLL_M50_PU0
+
+  version: v142Xv0
+  output_dir_base: /opt/ppd/scratch/asahasra/condor_scratch/Phase2EGPuppiIso_142Xv0_Ntuples
+  ncpu: 1
+  output_file_name: perfNano.root
+
+
+Configuration:
+  - mode: FP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runPerformanceNTuple.py
+
+
+DYToLL_M50_PU0:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_noPU_250128_142Xv0/250128_095637/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - addHGCalTPs();
+    - addStaEG();
+    - noResp();
+    - addDecodedTk();
+    - addPFLep();
+  job_flavor: espresso
+  max_events: -1
