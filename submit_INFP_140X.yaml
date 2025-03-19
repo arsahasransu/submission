@@ -15,7 +15,7 @@ Common:
     # - TTTo2L2Nu_noPU
     # - TTTo2L2Nu_PU200
 
-  version: 142Xv0_retry
+  version: 142Xv1
   ncpu: 1
   max_memory: 4000
   output_file_name: inputs140X.root
@@ -65,42 +65,42 @@ QCD_Pt20To30:
   input_dataset: /QCD_Pt-20To30_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2
-  max_events: 50
-  # max_events: 247
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 247
 
 
 QCD_Pt30To50:
   input_dataset: /QCD_Pt-30To50_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2
-  max_events: 50
-  # max_events: 151
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 151
 
 
 QCD_Pt50To80:
   input_dataset: /QCD_Pt-50To80_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2
-  max_events: 50
-  # max_events: 100
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 100
 
 
 QCD_Pt80To120:
   input_dataset: /QCD_Pt-80To120_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2
-  max_events: 50
-  # max_events: 100
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 100
 
 
 QCD_Pt120To170:
   input_dataset: /QCD_Pt-120To170_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2
-  max_events: 50
-  # max_events: 499
+  splitting_granularity: 4
+  # max_events: 50
+  max_events: 499
