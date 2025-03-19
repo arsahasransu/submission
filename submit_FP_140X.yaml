@@ -15,6 +15,11 @@ Common:
   tasks:
     - DYToLL_M50_PU0
     - DYToLL_M50_PU200
+    - QCD_Pt20To30
+    - QCD_Pt30To50
+    - QCD_Pt50To80
+    - QCD_Pt80To120
+    - QCD_Pt120To170
 
   version: v142Xv0
   output_dir_base: /opt/ppd/scratch/asahasra/condor_scratch/Phase2EGPuppiIso_142Xv0_Ntuples 
@@ -44,6 +49,71 @@ DYToLL_M50_PU0:
 DYToLL_M50_PU200:
   input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_PU200_250129_142Xv0/250129_150329/0000/
   # input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_PU200_142Xv1/250130_150530/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+QCD_Pt20To30:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/QCD_Pt-20To30_EMEnriched_TuneCP5_14TeV-pythia8/QCD_Pt20To30_142Xv0_retry/250318_151115/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+QCD_Pt30To50:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/QCD_Pt-30To50_EMEnriched_TuneCP5_14TeV-pythia8/QCD_Pt30To50_142Xv0/250318_151001/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+QCD_Pt50To80:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/QCD_Pt-50To80_EMEnriched_TuneCP5_14TeV-pythia8/QCD_Pt50To80_142Xv0/250318_151012/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+QCD_Pt80To120:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/QCD_Pt-80To120_EMEnriched_TuneCP5_14TeV-pythia8/QCD_Pt80To120_142Xv0/250318_151025/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+QCD_Pt120To170:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/QCD_Pt-120To170_EMEnriched_TuneCP5_14TeV-pythia8/QCD_Pt120To170_142Xv0/250318_151036/0000/
   crab: False
   splitting_mode: file_based
   splitting_granularity: 1
