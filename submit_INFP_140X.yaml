@@ -5,10 +5,17 @@ Common:
   workdir: ./
   
   tasks:
-    - DYToLL_M50_noPU_250129
-    - DYToLL_M50_PU200_250129
+    # - DYToLL_M50_noPU
+    # - DYToLL_M50_PU200
+    - QCD_Pt20To30
+    - QCD_Pt30To50
+    - QCD_Pt50To80
+    - QCD_Pt80To120
+    - QCD_Pt120To170
+    # - TTTo2L2Nu_noPU
+    # - TTTo2L2Nu_PU200
 
-  version: 142Xv0
+  version: 142Xv1
   ncpu: 1
   max_memory: 4000
   output_file_name: inputs140X.root
@@ -18,19 +25,82 @@ Configuration:
   - mode: INFP
     cmssw_config: ../FastPUPPI/NtupleProducer/python/runInputs140X.py
 
-DYToLL_M50_noPU_250129:
+DYToLL_M50_noPU:
   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-noPU_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
   splitting_granularity: 4
-  max_events: 100
-  # max_events: 980
+  # max_events: 100
+  max_events: 980
 
 
-DYToLL_M50_PU200_250129:
+DYToLL_M50_PU200:
   input_dataset: /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
   splitting_granularity: 2
+  # max_events: 100
+  max_events: 989
+
+
+TTTo2L2Nu_noPU: # Old file
+  input_dataset: /TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/Phase2Spring23DIGIRECOMiniAOD-noPU_131X_mcRun4_realistic_v5-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 2
+  max_events: 50
+  # max_events: 248
+
+
+TTTo2L2Nu_PU200:
+  input_dataset: /TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 2
+  max_events: 50
+  # max_events: 500
+
+
+QCD_Pt20To30:
+  input_dataset: /QCD_Pt-20To30_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 247
+
+
+QCD_Pt30To50:
+  input_dataset: /QCD_Pt-30To50_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 151
+
+
+QCD_Pt50To80:
+  input_dataset: /QCD_Pt-50To80_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  # max_events: 50
   max_events: 100
-  # max_events: 989
+
+
+QCD_Pt80To120:
+  input_dataset: /QCD_Pt-80To120_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 100
+
+
+QCD_Pt120To170:
+  input_dataset: /QCD_Pt-120To170_EMEnriched_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 4
+  # max_events: 50
+  max_events: 499
