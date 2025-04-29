@@ -498,7 +498,6 @@ def createTaskSetup(task_config, config_file):
 
     # shutil.copy(task_config.cmssw_config, '{}/conf/input_cfg.py'.format(task_config.task_dir))
     
-
     params = getJobParams(mode, task_config)
     if not task_config.crab:
         # pickler(task_config.cmssw_config, 'input_cfg.py')
@@ -573,43 +572,58 @@ def printWait(task_conf, clusterId):
         print(e.output)
 
 
-def printDoc(task_configs):
+def printDoc(task_configs, output_file=None, to_stdout=True):
+    lines = []  # Collect all output lines here
+    task_lines = []
+
     cmssw_src = os.path.join(os.environ['CMSSW_BASE'], 'src')
-
     cmssw_repo = git.Repo(cmssw_src)
-  
-    
 
-    print('\n\n\n')
-    print(f'## {task_configs[0].version}')
+    # Get the short commit hash of HEAD
+    cmssw_commit_sha = cmssw_repo.head.commit.hexsha[:7]
+    # Check if the working directory is dirty
+    is_dirty = cmssw_repo.is_dirty(untracked_files=False)
+    describe_like = f"{cmssw_commit_sha}-dirty" if is_dirty else cmssw_commit_sha
 
-    print(f'   * directory: `{os.environ["PWD"]}`')
-    print(f'   * CMSSW version: `{os.environ["CMSSW_VERSION"]}`')
-    print(f'   * CMSSW git branch: `{cmssw_repo.active_branch.name}`')
-
+    lines.append('\n\n\n')
+    lines.append(f'## {task_configs[0].version}')
+    lines.append(f'   * directory: `{os.environ["PWD"]}`')
+    lines.append(f'   * CMSSW version: `{os.environ["CMSSW_VERSION"]}`')
+    lines.append(f'   * CMSSW git branch: `{cmssw_repo.active_branch.name}` (`{describe_like}`)')
 
     for pkg in ['Phase2EGTriggerAnalysis', 'FastPUPPI']:
         ntp_src = os.path.join(cmssw_src, pkg)
-        if(os.path.exists(ntp_src)):
+        if os.path.exists(ntp_src):
             ntp_repo = git.Repo(ntp_src)
-            print(f'   * `{pkg}` git branch: `{ntp_repo.active_branch.name}`')
+            lines.append(f'   * `{pkg}` git branch: `{ntp_repo.active_branch.name}`')
 
     if len(task_configs[0].cmssw_configs) > 1:
-        print(f'   * config files:')
-        
-        for ic,conf in enumerate(task_configs[0].cmssw_configs):
-            print(f'       - step{ic}: `{conf["cmssw_config"]}`, mode: `{conf["mode"]}`')
+        lines.append(f'   * config files:')
+        for ic, conf in enumerate(task_configs[0].cmssw_configs):
+            lines.append(f'       - step{ic}: `{conf["cmssw_config"]}`, mode: `{conf["mode"]}`')
     else:
-        print(f'   * config file: `{task_configs[0].cmssw_configs[0]["cmssw_config"]}` mode: `{task_configs[0].cmssw_configs[0]["mode"]}`')
+        conf = task_configs[0].cmssw_configs[0]
+        lines.append(f'   * config file: `{conf["cmssw_config"]}` mode: `{conf["mode"]}`')
 
-
-    print(f'   * tasks:')
+    task_lines.append(f'   * tasks:')
     for task in task_configs:
-        print(f'      * `{task.task_name}`')
+        task_lines.append(f'      * `{task.task_name}`')
         if hasattr(task, 'input_dataset'):
-            print(f'          * dataset: `{task.input_dataset}`')
+            task_lines.append(f'          * dataset: `{task.input_dataset}`')
         if hasattr(task, 'input_directory'):
-            print(f'          * dataset: `{task.input_directory}`')
+            task_lines.append(f'          * dataset: `{task.input_directory}`')
+
+    output_text = '\n'.join(lines)
+    task_text = '\n'.join(task_lines)
+
+    if output_file:
+        with open(output_file, 'w') as f:
+            f.write(output_text)
+
+    if to_stdout:
+        print(output_text)
+        print(task_text)
+
 
 import multiprocessing
 import time
@@ -730,6 +744,8 @@ def main():
             print('-- Creating task {}'.format(task_conf.task_name))
             # 1 create local dir
             createTaskSetup(task_conf, cfgfile)
+        readme_file = os.path.join(task_configs[0].task_base_dir, 'README.md')
+        printDoc(task_configs, output_file=readme_file, to_stdout=False)
     elif opt.SUBMIT:
         for task_conf in task_configs:
             print('-- Submitting task {}'.format(task_conf.task_name))
