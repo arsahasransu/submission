@@ -1,0 +1,256 @@
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
+
+Common:
+  mode: FP
+  name: fp
+  
+  tasks:
+    # - DoubleElectron_FlatPt-1To100_PU0
+    - TT_PU200
+    # - DYToLL_M-10To50_PU200
+    # - DYToLL_M-50_PU200
+    - DoubleElectron_FlatPt-1To100_PU200
+    - DoublePhoton_FlatPt-1To100_PU200
+    - NuGunAllEta_PU200
+    # # - ZprimeToEE_M-6000_PU200
+    # - HAHM_ZdToEE_m2_pu200
+    # - HAHM_ZdToEE_m5_pu200
+    # - HAHM_ZdToEE_m15_pu200
+
+  # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
+  version: 140Xv0B18
+  output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fp_ntuples
+  ncpu: 1
+  output_file_name: perfNano.root
+
+Configuration:
+  - mode: FP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runPerformanceNTuple.py
+
+# DoubleElectron_FlatPt-1To100_PU0:
+#   # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/pviscone/inputs/DoubleElectron_FlatPt-1To100_PU0_131Xv3a
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 1
+#   inline_customize: 
+#     - noResp();
+#     - addGenLep([11,22]);
+#     - addTkEG();
+#     - addHGCalTPs()
+#     - addStaEG()
+#     - noResp()
+#     - addDecodedTk();
+#     - addEGCrystalClusters();
+#   job_flavor: workday
+#   max_events: -1
+
+DoubleElectron_FlatPt-1To100_PU200:
+  # input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/DoubleElectron_FlatPt-1To100_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - noResp();
+    - addGenLep([11,22]);
+    - addTkEG();
+    # - addHGCalTPs()
+    - addStaEG()
+    # - addDecodedTk();
+    # - addEGCrystalClusters();
+    - addDecodedCalo();
+  job_flavor: longlunch
+  max_events: -1
+
+
+DoublePhoton_FlatPt-1To100_PU200:
+  # input_dataset: /DoublePhoton_FlatPt-1To100-gun/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/DoublePhoton_FlatPt-1To100_PU200/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - addStaEG()
+    - noResp()
+    # - addHGCalTPs()
+    - addDecodedCalo();
+  job_flavor: longlunch
+  max_events: -1
+
+
+
+# NuGunAllEta_PU200:
+#   # input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v1/FEVT
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/gpetrucc/11_1_0/NewInputs110X/110121.done/SingleNeutrino_PU200/
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 100
+#   job_flavor: longlunch
+#   max_events: 2
+
+NuGunAllEta_PU200:
+  # input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/SingleNeutrino_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - noResp();
+    - addGenLep([11,22]);
+    - addTkEG();
+    # - addHGCalTPs()
+    - addStaEG()
+    - noResp()
+    # - addDecodedTk();
+    - addDecodedCalo();
+    - addSeededConeJets();
+  job_flavor: longlunch
+  max_events: -1
+
+
+# /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_Pilot_125X_mcRun4_realistic_v2-v2/GEN-SIM-DIGI-RAW-MINIAOD
+# /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-noPU_Pilot_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+
+DYToLL_M-10To50_PU200:
+  # input_dataset =
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/DYToLL_M-10To50_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - addHGCalTPs()
+    - addStaEG()
+    - noResp()
+    - addDecodedTk();
+  job_flavor: longlunch
+  max_events: -1
+
+
+DYToLL_M-50_PU200:
+  # input_dataset =
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/DYToLL_M-50_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addTkEG();
+    - addHGCalTPs()
+    - addStaEG()
+    - noResp()
+    - addDecodedTk();
+  job_flavor: longlunch
+  max_events: -1
+
+
+
+
+# /TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TTToSemiLepton_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TT_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2_ext1-v1/GEN-SIM-DIGI-RAW-MINIAOD
+# /TT_TuneCP5_14TeV-powheg-pythia8/Phase2Fall22DRMiniAOD-PU200_PUTP_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+
+# TT_PU0:
+#   input_dataset: /TTbar_14TeV_TuneCP5_Pythia8/PhaseIITDRSpring19DR-NoPU_106X_upgrade2023_realistic_v3-v1/GEN-SIM-DIGI-RAW
+#   # input_directory =
+#   crab: True
+#   splitting_mode: Automatic
+#   splitting_granularity: 500
+#   # job_flavor =
+#   max_events: 100000
+
+TT_PU200:
+  # input_dataset: /TT_TuneCP5_14TeV-powheg-pythia8/Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1-v2/FEVT
+  input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/TT_PU200
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,22]);
+    - addHGCalTPs()
+    - addTkEG();
+    - noResp()
+    - addGenPi();
+    - addDecodedCalo();
+    - addSeededConeJets();
+  job_flavor: longlunch
+  max_events: -1
+
+
+# ZprimeToEE_M-6000_PU200:
+#   # input_dataset: /ZprimeToEE_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/FastPUPPI/14_2_X/fpinputs_140X/v0/
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 3
+#   inline_customize: 
+#     - addGenLep([11,22]);
+#     - addTkEG();
+#     - noResp()
+#   job_flavor: microcentury
+#   max_events: -1
+
+
+
+# HAHM_ZdToEE_m2_pu200:
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/HAHM_ZdToEE_m2_pu200/INFP/131Xv3d
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 2
+#   job_flavor: microcentury
+#   max_events: -1
+#   # max_njobs: 4
+#   inline_customize: 
+#     - addGenLep([11,22]);
+#     - addTkEG();
+#     - addHGCalTPs()
+#     - addStaEG()
+#     - noResp()
+#     - addDecodedTk();
+#     # - addGenWeight();
+
+# HAHM_ZdToEE_m5_pu200:
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/HAHM_ZdToEE_m5_pu200/INFP/131Xv3d
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 2
+#   job_flavor: microcentury
+#   max_events: -1
+#   # max_njobs: 4
+#   inline_customize: 
+#     - addGenLep([11,22]);
+#     - addTkEG();
+#     - addHGCalTPs()
+#     - addStaEG()
+#     - noResp()
+#     - addDecodedTk();
+#     # - addGenWeight();
+
+# HAHM_ZdToEE_m15_pu200:
+#   input_directory: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fpinputs/HAHM_ZdToEE_m15_pu200/INFP/131Xv3d
+#   crab: False
+#   splitting_mode: file_based
+#   splitting_granularity: 2
+#   job_flavor: microcentury
+#   max_events: -1
+#   inline_customize: 
+#     - addGenLep([11,22]);
+#     - addTkEG();
+#     - addHGCalTPs()
+#     - addStaEG()
+#     - noResp()
+#     - addDecodedTk();
+#     # - addGenWeight();
