@@ -7,13 +7,14 @@ Common:
   tasks:
     # - DYToLL_M50_noPU
     # - DYToLL_M50_PU200
-    - QCD_Pt20To30
-    - QCD_Pt30To50
-    - QCD_Pt50To80
-    - QCD_Pt80To120
-    - QCD_Pt120To170
+    # - QCD_Pt20To30
+    # - QCD_Pt30To50
+    # - QCD_Pt50To80
+    # - QCD_Pt80To120
+    # - QCD_Pt120To170
     # - TTTo2L2Nu_noPU
     # - TTTo2L2Nu_PU200
+     - DoubleElectronGun_PU200
 
   version: 142Xv1
   ncpu: 1
@@ -59,6 +60,24 @@ TTTo2L2Nu_PU200:
   splitting_granularity: 2
   max_events: 50
   # max_events: 500
+
+
+DoubleElectronGun_PU200:
+  input_dataset: /DoubleElectron_FlatPt-1To100-gun/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 1
+  # max_events: 50
+  max_events: 327
+
+
+MinBias_PU200:
+  input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200ALCA_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
+  crab: True
+  splitting_mode: FileBased
+  splitting_granularity: 20
+  max_events: 2000
+  # max_events: 12513
 
 
 QCD_Pt20To30:
