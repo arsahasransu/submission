@@ -14,7 +14,8 @@ Common:
     # - QCD_Pt120To170
     # - TTTo2L2Nu_noPU
     # - TTTo2L2Nu_PU200
-     - DoubleElectronGun_PU200
+    #  - DoubleElectronGun_PU200
+     - MinBias_PU200
 
   version: 142Xv1
   ncpu: 1
@@ -75,9 +76,9 @@ MinBias_PU200:
   input_dataset: /MinBias_TuneCP5_14TeV-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200ALCA_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 20
-  max_events: 2000
-  # max_events: 12513
+  splitting_granularity: 15
+  # max_events: 2000
+  max_events: 12513
 
 
 QCD_Pt20To30:
