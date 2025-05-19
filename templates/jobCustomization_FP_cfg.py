@@ -6,5 +6,5 @@ TEMPL_CUSTOMIZE
 
 process.maxEvents.input = cms.untracked.int32(TEMPL_NEVENTS)
 process.source.fileNames = cms.untracked.vstring(TEMPL_INFILES)
-process.outnano.fileName = cms.untracked.string('TEMPL_OUTFILE')
+# process.outnano.fileName = cms.untracked.string('TEMPL_OUTFILE')
 
