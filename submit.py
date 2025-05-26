@@ -236,7 +236,13 @@ def getJobParams(mode, task_conf):
         if not task_conf.crab:
             if hasattr(task_conf, 'input_directory'):
                 print(('Reading input files from directory: {}'.format(task_conf.input_directory)))
-                input_files = ['root://eoscms.cern.ch/'+os.path.join(task_conf.input_directory, file_name) for file_name in os.listdir(task_conf.input_directory) if file_name.endswith('.root')]
+                if "/eos/cms" in task_conf.input_directory:
+                    protocol = 'root://eoscms.cern.ch/'
+                elif "/eos/user" in task_conf.input_directory:
+                    protocol = 'root://eosuser.cern.ch/'
+                else:
+                    raise ValueError(f"Unknown eos protocol for {task_conf.input_directory}")
+                input_files = [protocol+os.path.join(task_conf.input_directory, file_name) for file_name in os.listdir(task_conf.input_directory) if file_name.endswith('.root')]
             elif hasattr(task_conf, 'input_dataset'):
                 print(('Reading input files from dataset: {}'.format(task_conf.input_dataset)))
                 input_files = getFilesForDataset(task_conf.input_dataset, site='T2_CH_CERN')
