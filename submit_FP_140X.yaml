@@ -25,7 +25,7 @@ Common:
     # - HAHM_ZdToEE_m15_pu200
 
   # cmssw_config: ../Phase2EGTriggerAnalysis/NtupleProducer/test/step1_L1TCorr_EGNtuples.py
-  version: 140Xv0B18
+  version: 140Xv0C1
   output_dir_base: /eos/cms/store/cmst3/group/l1tr/cerminar/l1teg/fp_ntuples
   ncpu: 1
   output_file_name: perfNano.root
@@ -62,7 +62,7 @@ DoubleElectron_FlatPt-1To100_PU200:
     - noResp();
     - addGenLep([11,22]);
     - addTkEG();
-    # - addHGCalTPs()
+    - addHGCalTPs()
     - addStaEG()
     # - addDecodedTk();
     # - addEGCrystalClusters();
@@ -114,8 +114,9 @@ NuGunAllEta_PU200:
     # - addDecodedTk();
     - addDecodedCalo();
     - addSeededConeJets();
+    - addCTL2Met();
   job_flavor: longlunch
-  max_events: -1
+  max_events: 500000
 
 
 # /DYToLL_M-10To50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_Pilot_125X_mcRun4_realistic_v2-v2/GEN-SIM-DIGI-RAW-MINIAOD
@@ -186,6 +187,7 @@ TT_PU200:
     - addGenPi();
     - addDecodedCalo();
     - addSeededConeJets();
+    - addCTL2Met();
   job_flavor: longlunch
   max_events: -1
 

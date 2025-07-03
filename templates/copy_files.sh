@@ -33,13 +33,18 @@ echo 'OUTPUT-FILE' ${OUTFILE}
 BATCH_DIR=${PWD}
 echo "Current dir: ${BATCH_DIR}"
 ls -l
-extension="${OUTFILE##*.}"
-filename="${OUTFILE%.*}"
-OUTTARGET="${OUTDIR}/${filename}_${CLUSTERID}_${PROCID}.${extension}"
 
-cp ${OUTFILE} ${OUTTARGET}
-if [ $? -eq 0 ]; then
-    echo "Copy succeeded"
-else
-    eos cp $(file_name_wprotocol ${OUTFILE}) $(file_name_wprotocol ${OUTTARGET})
-fi
+IFS=',' read -ra FILELIST <<< "$OUTFILE"
+
+for OFILE in "${FILELIST[@]}"; do
+    extension="${OFILE##*.}"
+    filename="${OFILE%.*}"
+    OUTTARGET="${OUTDIR}/${filename}_${CLUSTERID}_${PROCID}.${extension}"
+
+    cp "${OFILE}" "${OUTTARGET}"
+    if [ $? -eq 0 ]; then
+        echo "Copy succeeded for ${OFILE}"
+    else
+        eos cp "$(file_name_wprotocol "${OFILE}")" "$(file_name_wprotocol "${OUTTARGET}")"
+    fi
+done
