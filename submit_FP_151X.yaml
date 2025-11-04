@@ -1,0 +1,66 @@
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
+
+Common:
+  mode: FP
+  name: fp
+  workdir: './condor_jobs/'
+  
+  tasks:
+    # - DYToLL_M50_PU0
+    - DYToLL_M50_PU200
+    - MinBias_PU200
+
+  version: v151Xv1
+  output_dir_base: /opt/ppd/cms/users/asahasra/Phase2EGPuppiIso_151Xv1_Ntuples/ 
+  ncpu: 1
+  output_file_name: perfNano.root
+
+
+Configuration:
+  - mode: FP
+    cmssw_config: ../FastPUPPI/NtupleProducer/python/runPerformanceNTuple.py
+
+
+DYToLL_M50_PU0:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_noPU_151Xv1/251024_095725/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+
+DYToLL_M50_PU200:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DYToLL_M-50_TuneCP5_14TeV-pythia8/DYToLL_M50_PU200_151Xv1/251024_095736/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
+
+MinBias_PU200:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/MinBias_TuneCP5_14TeV-pythia8/MinBias_PU200_151Xv1/251024_095747/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 1
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: espresso
+  max_events: -1
