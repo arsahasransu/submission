@@ -10,15 +10,15 @@
 Common:
   mode: FP
   name: fp
-  workdir: './condor_jobs/'
+  workdir: '/opt/ppd/cms/users/asahasra/condor_jobs'
   
   tasks:
-    # - DYToLL_M50_PU0
+    - DYToLL_M50_PU0
     - DYToLL_M50_PU200
     - MinBias_PU200
 
-  version: v151Xv1
-  output_dir_base: /opt/ppd/cms/users/asahasra/Phase2EGPuppiIso_151Xv1_Ntuples/ 
+  version: v151Xv3
+  output_dir_base: /opt/ppd/cms/users/asahasra/Phase2EGPuppiIso_151Xv3_Ntuplesv3/ 
   ncpu: 1
   output_file_name: perfNano.root
 
@@ -34,10 +34,11 @@ DYToLL_M50_PU0:
   splitting_mode: file_based
   splitting_granularity: 1
   inline_customize: 
+    - noPU();
     - addGenLep([11,13]);
     - addTkEG();
     - saveCands();
-  job_flavor: espresso
+  job_flavor: longlunch
   max_events: -1
 
 
@@ -50,7 +51,7 @@ DYToLL_M50_PU200:
     - addGenLep([11,13]);
     - addTkEG();
     - saveCands();
-  job_flavor: microcentury
+  job_flavor: workday
   max_events: -1
 
 MinBias_PU200:
@@ -62,5 +63,5 @@ MinBias_PU200:
     - addGenLep([11,13]);
     - addTkEG();
     - saveCands();
-  job_flavor: longlunch
+  job_flavor: workday
   max_events: -1
