@@ -14,6 +14,9 @@ Common:
     # - QCD_Pt120To170
     # - TTTo2L2Nu_noPU
     - TTTo2L2Nu_PU200
+    - TTToSemileptonic_PU200
+    # - TT_PU200
+    # - TT_PU140
     - DoubleElectronGun_PU200
     # - MinBias_PU200
 
@@ -59,16 +62,17 @@ TTTo2L2Nu_PU200:
   crab: True
   splitting_mode: FileBased
   splitting_granularity: 2
-  # max_events: 50
-  max_events: 500
+  max_events: 50
+  # max_events: 500
 
 
 TTToSemileptonic_PU200:
   input_dataset: /TTToSemileptonic_TuneCP5_14TeV-powheg-pythia8/Phase2Spring24DIGIRECOMiniAOD-PU200_Trk1GeV_140X_mcRun4_realistic_v4-v2/GEN-SIM-DIGI-RAW-MINIAOD
   crab: True
   splitting_mode: FileBased
-  splitting_granularity: 2  # NOT RUN YET - TODO
-  max_events: 300  # NOT RUN YET - TODO
+  splitting_granularity: 1
+  max_events: 30
+  # max_events: 300
 
 
 TT_PU200:
@@ -92,8 +96,8 @@ DoubleElectronGun_PU200:
   crab: True
   splitting_mode: FileBased
   splitting_granularity: 1
-  # max_events: 50
-  max_events: 327
+  max_events: 50
+  # max_events: 327
 
 
 MinBias_PU200:
