@@ -7,6 +7,8 @@ log                   = TEMPL_TASKDIR/logs/condor.$(ClusterId).log
 +JobFlavour           = "TEMPL_JOBFLAVOR"
 
 RequestCpus = TEMPL_NCPU
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
 transfer_input_files  = TEMPL_TASKDIR/copy_files.sh,TEMPL_TASKDIR/conf/params.sh,TEMPL_TASKBASEDIR/sandbox.tgz,TEMPL_TASKBASEDIR/cmssw_setup.sh
 +PostCmd              = "copy_files.sh"
 

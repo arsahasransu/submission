@@ -39,9 +39,9 @@ cp ${ABSTASKCONFDIR}/job_config_${PROCID}.py ${BATCH_DIR}/
 cd ${BATCH_DIR}
 ls -lrt
 echo 'now we run it...fasten your seatbelt: '
-cmsRun job_config_${PROCID}.py 2>&1 | tee cmsRun_${PROCID}.${CLUSTERID}.log > /dev/null
+cmsRun job_config_${PROCID}.py
 EXIT_CODE=${PIPESTATUS[0]}
-gzip cmsRun_${PROCID}.${CLUSTERID}.log && cp -v cmsRun_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'cmsRun log handling failed!'; exit 12; }
+# gzip cmsRun_${PROCID}.${CLUSTERID}.log && cp -v cmsRun_${PROCID}.${CLUSTERID}.log.gz ${ABSTASKLOGDIR} || { echo 'cmsRun log handling failed!'; exit 12; }
 if [ $EXIT_CODE -ne 0 ]; then
     echo "cmsRun failed with exit code $EXIT_CODE"
     exit 11

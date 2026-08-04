@@ -445,6 +445,7 @@ def createJobExecutable(mode, params):
     if not os.path.isfile(run_template_name):
         run_template_name = default_template_name
     shutil.copy(run_template_name, '{}/run.sh'.format(params['TEMPL_TASKCONFDIR']))
+    os.chmod(os.path.join(params['TEMPL_TASKDIR'], 'conf/run.sh'),  0o754)
     shutil.copy('templates/copy_files.sh', '{}/copy_files.sh'.format(params['TEMPL_TASKDIR']))
     os.chmod(os.path.join(params['TEMPL_TASKDIR'], 'copy_files.sh'),  0o754)
     shutil.copy('templates/cmssw_setup.sh', '{}/cmssw_setup.sh'.format(params['TEMPL_TASKBASEDIR']))
