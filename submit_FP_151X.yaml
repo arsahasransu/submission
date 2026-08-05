@@ -13,12 +13,15 @@ Common:
   workdir: '/opt/ppd/cms/users/asahasra/condor_jobs'
   
   tasks:
-    - DYToLL_M50_PU0
-    - DYToLL_M50_PU200
-    - MinBias_PU200
+    # - DYToLL_M50_PU0
+    # - DYToLL_M50_PU200
+    - TTTo2L2Nu_PU200
+    # - TTToSemileptonic_PU200
+    - DoubleElectronGun_PU200
+    # - MinBias_PU200
 
-  version: v151Xv3
-  output_dir_base: /opt/ppd/cms/users/asahasra/Phase2EGPuppiIso_151Xv3_Ntuplesv3/ 
+  version: v151Xv1trial
+  output_dir_base: /opt/ppd/cms/users/asahasra/Phase2EGPuppiIso_151Xv1trial_Ntuplesv1trial/ 
   ncpu: 1
   output_file_name: perfNano.root
 
@@ -53,6 +56,46 @@ DYToLL_M50_PU200:
     - saveCands();
   job_flavor: workday
   max_events: -1
+
+
+TTTo2L2Nu_PU200:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/TTTo2L2Nu_PU200_151Xv1trial/260804_180716/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: workday
+  max_events: -1
+
+
+TTToSemileptonic_PU200:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTToSemileptonic_TuneCP5_14TeV-powheg-pythia8/TTToSemileptonic_PU200_151Xv1trial/260804_180729/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: workday
+  max_events: -1
+
+
+DoubleElectronGun_PU200:
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/DoubleElectron_FlatPt-1To100-gun/DoubleElectronGun_PU200_151Xv1trial/260804_180743/0000/
+  crab: False
+  splitting_mode: file_based
+  splitting_granularity: 2
+  inline_customize: 
+    - addGenLep([11,13]);
+    - addTkEG();
+    - saveCands();
+  job_flavor: workday
+  max_events: -1
+
 
 MinBias_PU200:
   input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/MinBias_TuneCP5_14TeV-pythia8/MinBias_PU200_151Xv1/251024_095747/0000/
