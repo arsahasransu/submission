@@ -59,7 +59,7 @@ DYToLL_M50_PU200:
 
 
 TTTo2L2Nu_PU200:
-  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/TTTo2L2Nu_PU200_151Xv1trial/260804_180716/0000/
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTTo2L2Nu_TuneCP5_14TeV-powheg-pythia8/TTTo2L2Nu_PU200_151Xv1/260805_081539/0000/
   crab: False
   splitting_mode: file_based
   splitting_granularity: 2
@@ -72,7 +72,7 @@ TTTo2L2Nu_PU200:
 
 
 TTToSemileptonic_PU200:
-  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTToSemileptonic_TuneCP5_14TeV-powheg-pythia8/TTToSemileptonic_PU200_151Xv1trial/260804_180729/0000/
+  input_directory: /pnfs/pp.rl.ac.uk/data/cms/store/user/asahasra/TTToSemileptonic_TuneCP5_14TeV-powheg-pythia8/TTToSemileptonic_PU200_151Xv1/260805_081622/0000/
   crab: False
   splitting_mode: file_based
   splitting_granularity: 2
