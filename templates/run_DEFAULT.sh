@@ -47,3 +47,14 @@ if [ $EXIT_CODE -ne 0 ]; then
     exit 11
 fi
 echo '...done'
+
+extension="${OUTFILE##*.}"
+filename="${OUTFILE%.*}"
+OUTTARGET="${OUTDIR}/${filename}_${CLUSTERID}_${PROCID}.${extension}"
+echo ${OUTTARGET}
+cp ${OUTFILE} ${OUTTARGET}
+if [ $? -eq 0 ]; then
+    echo "Copy succeeded"
+else
+    eos cp $(file_name_wprotocol ${OUTFILE}) $(file_name_wprotocol ${OUTTARGET})
+fi
