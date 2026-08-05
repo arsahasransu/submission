@@ -15,8 +15,8 @@ Common:
   tasks:
     # - DYToLL_M50_PU0
     # - DYToLL_M50_PU200
-    # - TTTo2L2Nu_PU200
-    # - TTToSemileptonic_PU200
+    - TTTo2L2Nu_PU200
+    - TTToSemileptonic_PU200
     - DoubleElectronGun_PU200
     # - MinBias_PU200
 
